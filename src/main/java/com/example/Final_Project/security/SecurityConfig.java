@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import java.util.*;
 
 import java.util.List;
 
@@ -51,11 +52,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), userRepository);
         customAuthenticationFilter.setFilterProcessesUrl("/login");
 
+        List<String> a1 = new ArrayList<>();
+        a1.add("*");
+        List<String> a2 = new ArrayList<>();
+        a2.add("GET");
+        a2.add("POST");
+        a2.add("PUT");
+        a2.add("DELETE");
+        a2.add("OPTIONS");
         http.cors().configurationSource(request -> {
-            var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(List.of("*"));
-            cors.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE", "OPTIONS"));
-            cors.setAllowedHeaders(List.of("*"));
+            CorsConfiguration cors = new CorsConfiguration();
+            cors.setAllowedOrigins(a1);
+            cors.setAllowedMethods(a2);
+            cors.setAllowedHeaders(a1);
             return cors;});
 
 
